@@ -1,7 +1,6 @@
 package fr.it_akademy_testapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * Task entity.
  * @author The JHipster team.
  */
-@Schema(description = "Task entity.\n@author The JHipster team.")
 @Entity
 @Table(name = "task")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

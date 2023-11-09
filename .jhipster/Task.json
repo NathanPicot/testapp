@@ -2,6 +2,7 @@
   "applications": "*",
   "changelogDate": "20231109104722",
   "documentation": "Task entity.\\n@author The JHipster team.",
+  "dto": "mapstruct",
   "entityTableName": "task",
   "fields": [
     {

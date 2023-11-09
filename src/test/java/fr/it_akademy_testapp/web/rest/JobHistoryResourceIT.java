@@ -9,6 +9,8 @@ import fr.it_akademy_testapp.IntegrationTest;
 import fr.it_akademy_testapp.domain.JobHistory;
 import fr.it_akademy_testapp.domain.enumeration.Language;
 import fr.it_akademy_testapp.repository.JobHistoryRepository;
+import fr.it_akademy_testapp.service.dto.JobHistoryDTO;
+import fr.it_akademy_testapp.service.mapper.JobHistoryMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -51,6 +53,9 @@ class JobHistoryResourceIT {
     private JobHistoryRepository jobHistoryRepository;
 
     @Autowired
+    private JobHistoryMapper jobHistoryMapper;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -90,8 +95,9 @@ class JobHistoryResourceIT {
     void createJobHistory() throws Exception {
         int databaseSizeBeforeCreate = jobHistoryRepository.findAll().size();
         // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
         restJobHistoryMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistory)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO)))
             .andExpect(status().isCreated());
 
         // Validate the JobHistory in the database
@@ -108,12 +114,13 @@ class JobHistoryResourceIT {
     void createJobHistoryWithExistingId() throws Exception {
         // Create the JobHistory with an existing ID
         jobHistory.setId(1L);
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
 
         int databaseSizeBeforeCreate = jobHistoryRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restJobHistoryMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistory)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the JobHistory in the database
@@ -175,12 +182,13 @@ class JobHistoryResourceIT {
         // Disconnect from session so that the updates on updatedJobHistory are not directly saved in db
         em.detach(updatedJobHistory);
         updatedJobHistory.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE).language(UPDATED_LANGUAGE);
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(updatedJobHistory);
 
         restJobHistoryMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedJobHistory.getId())
+                put(ENTITY_API_URL_ID, jobHistoryDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedJobHistory))
+                    .content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isOk());
 
@@ -199,12 +207,15 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, jobHistory.getId())
+                put(ENTITY_API_URL_ID, jobHistoryDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(jobHistory))
+                    .content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -219,12 +230,15 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(jobHistory))
+                    .content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -239,9 +253,12 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistory)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the JobHistory in the database
@@ -317,12 +334,15 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, jobHistory.getId())
+                patch(ENTITY_API_URL_ID, jobHistoryDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(jobHistory))
+                    .content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -337,12 +357,15 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(jobHistory))
+                    .content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -357,10 +380,13 @@ class JobHistoryResourceIT {
         int databaseSizeBeforeUpdate = jobHistoryRepository.findAll().size();
         jobHistory.setId(longCount.incrementAndGet());
 
+        // Create the JobHistory
+        JobHistoryDTO jobHistoryDTO = jobHistoryMapper.toDto(jobHistory);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restJobHistoryMockMvc
             .perform(
-                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(jobHistory))
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(jobHistoryDTO))
             )
             .andExpect(status().isMethodNotAllowed());
 

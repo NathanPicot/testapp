@@ -1,6 +1,7 @@
 {
   "applications": "*",
   "changelogDate": "20231109104922",
+  "dto": "mapstruct",
   "entityTableName": "job",
   "fields": [
     {
@@ -34,5 +35,6 @@
       "relationshipType": "many-to-one"
     }
   ],
-  "searchEngine": "no"
+  "searchEngine": "no",
+  "service": "serviceClass"
 }

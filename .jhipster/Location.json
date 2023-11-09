@@ -2,6 +2,7 @@
   "applications": "*",
   "changelogDate": "20231109104522",
   "documentation": "not an ignored comment",
+  "dto": "mapstruct",
   "entityTableName": "location",
   "fields": [
     {
