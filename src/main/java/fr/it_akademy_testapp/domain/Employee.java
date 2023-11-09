@@ -1,7 +1,6 @@
 package fr.it_akademy_testapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * The Employee entity.
  */
-@Schema(description = "The Employee entity.")
 @Entity
 @Table(name = "employee")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -31,7 +29,6 @@ public class Employee implements Serializable {
     /**
      * The firstname attribute.
      */
-    @Schema(description = "The firstname attribute.")
     @Column(name = "first_name")
     private String firstName;
 

@@ -1,6 +1,6 @@
 package fr.it_akademy_testapp.service;
 
-import fr.it_akademy_testapp.domain.Country;
+import fr.it_akademy_testapp.service.dto.CountryDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,40 +11,40 @@ public interface CountryService {
     /**
      * Save a country.
      *
-     * @param country the entity to save.
+     * @param countryDTO the entity to save.
      * @return the persisted entity.
      */
-    Country save(Country country);
+    CountryDTO save(CountryDTO countryDTO);
 
     /**
      * Updates a country.
      *
-     * @param country the entity to update.
+     * @param countryDTO the entity to update.
      * @return the persisted entity.
      */
-    Country update(Country country);
+    CountryDTO update(CountryDTO countryDTO);
 
     /**
      * Partially updates a country.
      *
-     * @param country the entity to update partially.
+     * @param countryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<Country> partialUpdate(Country country);
+    Optional<CountryDTO> partialUpdate(CountryDTO countryDTO);
 
     /**
      * Get all the countries.
      *
      * @return the list of entities.
      */
-    List<Country> findAll();
+    List<CountryDTO> findAll();
 
     /**
-     * Get all the Country where Location is {@code null}.
+     * Get all the CountryDTO where Location is {@code null}.
      *
      * @return the {@link List} of entities.
      */
-    List<Country> findAllWhereLocationIsNull();
+    List<CountryDTO> findAllWhereLocationIsNull();
 
     /**
      * Get the "id" country.
@@ -52,7 +52,7 @@ public interface CountryService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Country> findOne(Long id);
+    Optional<CountryDTO> findOne(Long id);
 
     /**
      * Delete the "id" country.

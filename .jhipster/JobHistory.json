@@ -1,6 +1,7 @@
 {
   "applications": "*",
   "changelogDate": "20231109105022",
+  "dto": "mapstruct",
   "entityTableName": "job_history",
   "fields": [
     {

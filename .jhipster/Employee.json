@@ -2,6 +2,7 @@
   "applications": "*",
   "changelogDate": "20231109104822",
   "documentation": "The Employee entity.",
+  "dto": "mapstruct",
   "entityTableName": "employee",
   "fields": [
     {
@@ -58,5 +59,6 @@
       "relationshipType": "many-to-one"
     }
   ],
-  "searchEngine": "no"
+  "searchEngine": "no",
+  "service": "serviceClass"
 }
